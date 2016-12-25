@@ -1,0 +1,18 @@
+{
+  "name": "pos-dictionary-trie",
+  "version": "1.0.0",
+  "description": "Parts of speech of dictionary words organized into a trie for fast uplook.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Michael Lee",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vlmlee"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "pos": "^0.4.2"
+  }
+}
