@@ -22,8 +22,12 @@ var rl = _readline2.default.createInterface({
 	input: _fs2.default.createReadStream(_path2.default.join(__dirname, '../lib/conjunctions.txt'))
 });
 
+console.time('map');
+
 rl.on('line', function (line) {
 	var word = new _pos2.default.Lexer().lex(line);
 	var taggedWord = new _pos2.default.Tagger().tag(word);
 	console.log(taggedWord[0]);
 });
+
+console.timeEnd('map'); // ~0.06ms per line, * 82000 = 4.92 secs
