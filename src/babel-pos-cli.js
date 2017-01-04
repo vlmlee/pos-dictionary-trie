@@ -22,3 +22,5 @@ for (var i in taggedWords) {
 }
 
 console.log(transformation.join(" "));
+
+// pipe to output
