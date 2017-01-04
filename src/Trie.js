@@ -31,8 +31,8 @@ let trie = {};
 // example: { sememe: car, pos: NN }, { sememe: run, pos: VB }, { sememe: to, pos: TO } 
 words.forEach(word => {
 	word.sememe.map((i, index) => {
-		if (word.sememe[index+1]) {
-			trie[i] = word.sememe[index + 1];
+		if (word.sememe[index + 1]) {
+			trie[i] = word.sememe[index + 1] = {};
 			trie = trie[i];
 		} else {
 			trie[i] = word.pos;
