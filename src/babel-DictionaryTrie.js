@@ -33,9 +33,15 @@ var DictionaryTrie = function () {
 		_classCallCheck(this, DictionaryTrie);
 
 		this.trie = trie;
+		this.promises = null;
 	}
 
 	_createClass(DictionaryTrie, [{
+		key: 'getTrie',
+		value: function getTrie() {
+			return this.trie;
+		}
+	}, {
 		key: 'buildTrieFromFile',
 		value: function buildTrieFromFile(file) {
 			var self = this;
@@ -47,66 +53,74 @@ var DictionaryTrie = function () {
 			console.time('Elapsed time to create trie');
 			console.log('Working...');
 
-			rl.on('line', function (line) {
-				var word = new _pos2.default.Lexer().lex(line),
-				    taggedWord = new _pos2.default.Tagger().tag(word);
+			return new Promise(function (resolve, reject) {
+				rl.on('line', function (line) {
+					var word = new _pos2.default.Lexer().lex(line),
+					    taggedWord = new _pos2.default.Tagger().tag(word);
 
-				var atoms = word[0].split(""),
-				    root = self.trie;
+					var atoms = word[0].split(""),
+					    root = self.trie;
 
-				atoms.map(function (char, index) {
-					if (atoms.length !== 1 && index === atoms.length - 1) {
-						root[char] = taggedWord[0];
-					} else if (root[char]) {
-						root = root[char];
-					} else {
-						root[char] = {};
-						root = root[char];
-					}
+					atoms.map(function (char, index) {
+						if (atoms.length !== 1 && index === atoms.length - 1) {
+							root[char] = taggedWord[0];
+						} else if (root[char]) {
+							root = root[char];
+						} else {
+							root[char] = {};
+							root = root[char];
+						}
+					});
 				});
-			});
 
-			var elapsedTime = new Date().getTime() - timeStart;
+				var elapsedTime = new Date().getTime() - timeStart;
 
-			rl.on('close', function () {
-				console.log('Time spent mapping each word: ~' + elapsedTime + 'ms');
-				console.timeEnd('Elapsed time to create trie');
+				rl.on('close', function (err) {
+					if (err) {
+						reject(err.message);
+					}
+					console.log('Time spent mapping each word: ~' + elapsedTime + 'ms');
+					console.timeEnd('Elapsed time to create trie');
+					resolve(JSON.stringify(self.trie));
+				});
 			});
 		}
 	}, {
 		key: 'writeTrieToFile',
 		value: function writeTrieToFile(file) {
-			_fs2.default.writeFile(file, JSON.stringify(this.trie), function (err) {
-				if (err) {
-					return new Error(err.message);
-				}
+			var self = this;
+			return new Promise(function (resolve, reject) {
+				_fs2.default.writeFile(file, JSON.stringify(self.trie), function (err) {
+					if (err) {
+						reject(err.message);
+					}
+					resolve("Successfully created Trie to file.");
+				});
 			});
 		}
 	}, {
 		key: 'searchTrie',
-		value: function (_searchTrie) {
-			function searchTrie(_x, _x2) {
-				return _searchTrie.apply(this, arguments);
-			}
-
-			searchTrie.toString = function () {
-				return _searchTrie.toString();
-			};
-
-			return searchTrie;
-		}(function (trie, word) {
+		value: function searchTrie(trie, word) {
 			if (!trie) {
 				trie = this.trie;
 			}
-
+			var self = this;
+			self.promises = [];
 			if (trie.hasOwnProperty(word[0])) {
-				if (_typeof(trie[word[0]]) === 'object' && trie[word[0]] !== null) {
-					searchTrie(trie[word[0]], word.slice(1));
+				if (_typeof(trie[word[0]]) === 'object' && word.length > 1) {
+					self.searchTrie(trie[word[0]], word.slice(1));
 				} else {
-					return trie[word[0]];
+					self.promises.push(new Promise(function (resolve, reject) {
+						if (trie[word[0]]) {
+							resolve(trie[word[0]][1]);
+						} else {
+							reject("Word not found");
+						}
+					}));
 				}
 			}
-		})
+			return Promise.all(self.promises);
+		}
 	}]);
 
 	return DictionaryTrie;

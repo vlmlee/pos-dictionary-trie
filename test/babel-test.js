@@ -4,37 +4,68 @@ var _babelDictionaryTrie = require('../src/babel-DictionaryTrie');
 
 var _babelDictionaryTrie2 = _interopRequireDefault(_babelDictionaryTrie);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _chai = require('chai');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var assert = require('chai').assert;
+var readFromFile = _path2.default.join(__dirname, './test-dictionary.txt'),
+    writeToFile = _path2.default.join(__dirname, './test-pos-dictionary.json');
 
-var Dictionary = new _babelDictionaryTrie2.default({});
+describe('Dictionary Trie', function () {
+	it('should build trie from constructor', function () {
+		var Dictionary = new _babelDictionaryTrie2.default({ a: { b: { s: ['abs', 'NN'] } } });
+		(0, _chai.expect)(Dictionary.getTrie()).to.eql({ a: { b: { s: ['abs', 'NN'] } } });
+	});
 
-var readFromFile = './test-dictionary.txt',
-    writeToFile = './test-pos-dictionary.json';
+	it('should build trie from file', function () {
+		var Dictionary = new _babelDictionaryTrie2.default({});
+		Dictionary.buildTrieFromFile(readFromFile).then(function (result) {
+			(0, _chai.expect)(result).to.eql('{"k":{"u":{"d":{"o":{"s":["kudos","NNS"]}},"r":{"t":{"a":["kurta","NN"]}}},"v":{"e":{"t":{"c":{"h":["kvetch","NN"]}}}}},"K":{"u":{"r":{"d":["Kurd","NNP"]},"w":{"a":{"i":{"t":{"i":["Kuwaiti","JJ"]}}}}}}}');
+		});
+	});
 
-Promise.resolve(Dictionary.buildTrieFromFile(readFromFile).then(function (results) {
-	return console.log("\n" + results + "\n");
-}, function (error) {
-	return console.log(error);
-})).then(function () {
-	Dictionary.writeTrieToFile(writeToFile).then(function (results) {
-		return console.log(results);
+	it('should write trie to file', function (done) {
+		var Dictionary = new _babelDictionaryTrie2.default({});
+
+		Promise.resolve(Dictionary.buildTrieFromFile(readFromFile)).then(function () {
+			Dictionary.writeTrieToFile(writeToFile);
+		});
+
+		_fs2.default.readFile(writeToFile, 'utf8', function (err, data) {
+			(0, _chai.expect)(JSON.stringify(Dictionary.getTrie())).to.eql(data);
+			done();
+		});
 	});
-}).then(function () {
-	Dictionary.searchTrie(Dictionary.trie, 'kudos').then(function (results) {
-		return console.log(results);
+
+	it('should find word and pos of a search term', function () {
+		var Dictionary = new _babelDictionaryTrie2.default({ a: { b: { s: ['abs', 'NN'] } } });
+		Dictionary.searchTrie(Dictionary.trie, 'abs').then(function (result) {
+			(0, _chai.expect)(result).to.eql(["NN"]);
+		});
 	});
-}).then(function () {
-	Dictionary.searchTrie(Dictionary.trie, 'kurta').then(function (results) {
-		return console.log(results);
+
+	it('should find words and pos of multiple search terms', function () {
+		var Dictionary = new _babelDictionaryTrie2.default({ "k": { "u": { "d": { "o": { "s": ["kudos", "NNS"] } }, "r": { "t": { "a": ["kurta", "NN"] } } }, "v": { "e": { "t": { "c": { "h": ["kvetch", "NN"] } } } } }, "K": { "u": { "r": { "d": ["Kurd", "NNP"] }, "w": { "a": { "i": { "t": { "i": ["Kuwaiti", "JJ"] } } } } } } });
+
+		Promise.all([Dictionary.searchTrie(Dictionary.trie, 'Kurd'), Dictionary.searchTrie(Dictionary.trie, 'kvetch'), Dictionary.searchTrie(Dictionary.trie, 'kurta')]).then(function (result) {
+			(0, _chai.expect)(result).to.eql([["NNP"], ["NN"], ["NN"]]);
+		});
 	});
-}).then(function () {
-	Dictionary.searchTrie(Dictionary.trie, 'kung').then(function (results) {
-		return console.log(results);
-	});
-}).then(function () {
-	Dictionary.searchTrie(Dictionary.trie, 'kq').then(function (results) {
-		return console.log(results);
+
+	it('should return an empty array if word is not found', function () {
+		var Dictionary = new _babelDictionaryTrie2.default({});
+		Promise.resolve(Dictionary.buildTrieFromFile(readFromFile)).then(function () {
+			Dictionary.searchTrie(Dictionary.trie, 'kq').then(function (result) {
+				(0, _chai.expect)(result).to.eql([]);
+			});
+		});
 	});
 });
