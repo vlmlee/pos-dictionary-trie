@@ -41,7 +41,7 @@ let fileToWriteInto = path.join(__dirname, './yourFileToWriteInto.json');
 Promise.resolve(
 	anotherTrie.buildTrieFromFile(fileToRead)
 ).then(() => {
-	anotherTrie.writeToFile(fileToWriteInto).then(
+	anotherTrie.writeTrieToFile(fileToWriteInto).then(
 		(result) => console.log(result), // => success message 
 		(error) => console.log(error) // => error message
 	);
