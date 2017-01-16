@@ -23,7 +23,7 @@ to parse words into their parts of speech.
 ## Usage
 
 ```js
-const trie = require('./index.js');
+const trie = require('pos-dict-trie');
 const fs = require('fs');
 
 // Builds initial trie from user input
