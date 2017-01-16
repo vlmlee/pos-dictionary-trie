@@ -28,16 +28,14 @@ const fs = require('fs');
 let Trie = new trie.DictionaryTrie({ a: { b: ["ab", "NN"]}});
 console.log(newTrie.getTrie()); // => { a: { b: ["ab", "NN"]}}
 
+// Builds trie from a file
 let anotherTrie = new trie.DictionaryTrie({}),
 	fileToRead = path.join(__dirname, './yourFileToRead.txt');
-
-// Builds trie from a file
 anotherTrie.buildTrieFromFile(fileToRead) // File must be in single-lined format
 	.then(result => console.log(result)); // => Returns your trie in a JSON string
 
 // Writes a built trie into a file
 let fileToWriteInto = path.join(__dirname, './yourFileToWriteInto.json');
-
 Promise.resolve(
 	anotherTrie.buildTrieFromFile(fileToRead)
 ).then(() => {
@@ -48,12 +46,11 @@ Promise.resolve(
 });
 
 // Search the trie and returns the part of speech
-anotherTrie.searchTrie(anotherTrie.getTrie(), 'word').then( 
+let t = anotherTrie.getTrie();
+anotherTrie.searchTrie(t, 'word').then( 
 	(result) => console.log(result), // => part of speech of the word
 	(error) => console.log(error) // => Will return "word not found" if not
 );
-
-let t = anotherTrie.getTrie();
 
 // Multiple searches at once
 Promise.all([
