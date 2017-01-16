@@ -3,7 +3,7 @@
 ## About
 
 This is a module that builds a dictionary trie from user input or from a file. It matches
-a word with a *part of speech*. For example, in this format:
+a word with a *part of speech*. For example, a dictionary trie is created in this format:
 
 {"k":{"u":{"d":{"o":{"s":["kudos","NNS"]}},"r":{"t":{"a":["kurta","NN"]}}},"v":{"e":{"t":{"c":{"h":["kvetch","NN"]}}}}},"K":{"u":{"r":{"d":["Kurd","NNP"]},"w":{"a":{"i":{"t":{"i":["Kuwaiti","JJ"]}}}}}}}
 
