@@ -2,8 +2,8 @@
 
 ## About
 
-This is a module that builds a dictionary trie from user input or from a file. It matches
-a word with a *part of speech*. For example, a dictionary trie is created in this format:
+This is a module that builds a dictionary trie from user input or a file. It matches
+a word with its *part of speech*. For example, a dictionary trie is created in this format:
 
 ```
 {"k":{"u":{"d":{"o":{"s":["kudos","NNS"]}},"r":{"t":{"a":["kurta","NN"]}}},"v":{"e":{"t":{"c":{"h":["kvetch","NN"]}}}}},"K":{"u":{"r":{"d":["Kurd","NNP"]},"w":{"a":{"i":{"t":{"i":["Kuwaiti","JJ"]}}}}}}}
@@ -11,10 +11,10 @@ a word with a *part of speech*. For example, a dictionary trie is created in thi
 
 You can build a trie from a list of 83,000 words in ~10 secs and the lookup is fast. You may 
 want to use the code in order to build your own trie with other associated data, i.e. 
-defintions, word roots, etc.
+definitions, word origins, etc.
 
-It uses the [pos-js was written by Percy Wegmann](https://github.com/neopunisher/pos-js) 
-to parse the words into their parts of speech.
+It uses the [pos-js utility written by Percy Wegmann](https://github.com/neopunisher/pos-js) 
+to parse words into their parts of speech.
 
 ## How to install
 
