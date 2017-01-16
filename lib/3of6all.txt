@@ -17487,7 +17487,7 @@ d:
 'd
 d.
 D.
-3-D^
+D^
 DA
 D.A.
 dab
@@ -39414,7 +39414,6 @@ juxtaposing
 juxtaposition
 juxtapositions
 K
-401(k)
 kabob
 kabobs
 kabuki
@@ -40002,7 +40001,6 @@ krypton
 Ks
 KS
 K's
-401(k)s
 kudos
 Ku Klux Klan
 kumquat

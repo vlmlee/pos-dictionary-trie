@@ -12,9 +12,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var args = process.argv.slice(2);
 
-var words = new _pos2.default.Lexer().lex(args[0]);
-var taggedWords = new _pos2.default.Tagger().tag(words);
-var transformation = [];
+var words = new _pos2.default.Lexer().lex(args[0]),
+    taggedWords = new _pos2.default.Tagger().tag(words),
+    transformation = [];
 
 for (var i in taggedWords) {
 	var tag = taggedWords[i][1];
