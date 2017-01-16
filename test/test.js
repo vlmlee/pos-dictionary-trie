@@ -34,14 +34,14 @@ describe('Dictionary Trie', () => {
 		});
 	});
 
-	it('should find word and pos of a search term', () => {
+	it('should find pos of a search term', () => {
 		let Dictionary = new DictionaryTrie({ a: { b : { s: ['abs', 'NN']}}});
 		Dictionary.searchTrie(Dictionary.trie, 'abs').then(result => {
 			expect(result).to.eql(["NN"]);
 		});
 	});
 
-	it('should find words and pos of multiple search terms', () => {
+	it('should find pos of multiple search terms', () => {
 		let Dictionary = new DictionaryTrie({"k":{"u":{"d":{"o":{"s":["kudos","NNS"]}},"r":{"t":{"a":["kurta","NN"]}}},"v":{"e":{"t":{"c":{"h":["kvetch","NN"]}}}}},"K":{"u":{"r":{"d":["Kurd","NNP"]},"w":{"a":{"i":{"t":{"i":["Kuwaiti","JJ"]}}}}}}});
 
 		Promise.all([

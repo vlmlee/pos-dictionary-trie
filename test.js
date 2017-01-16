@@ -1,19 +1,3 @@
-# Parts of Speech Dictionary Trie
-
-## About
-
-This is a module that builds a dictionary trie from user
-
-using [pos-js was written by Percy Wegmann](https://github.com/neopunisher/pos-js) to generate
-
-
-## How to install
-
-`$ npm install pos-dict-trie`
-
-## Usage
-
-```js
 const trie = require('./index.js');
 const fs = require('fs');
 
@@ -52,4 +36,4 @@ Promise.all([
 ]).then(result => {
 	console.log(result) // => returns all three in an array ['VB', 'NN', 'RB']
 });
-```
+

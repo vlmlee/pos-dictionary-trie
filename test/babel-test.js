@@ -45,14 +45,14 @@ describe('Dictionary Trie', function () {
 		});
 	});
 
-	it('should find word and pos of a search term', function () {
+	it('should find pos of a search term', function () {
 		var Dictionary = new _babelDictionaryTrie2.default({ a: { b: { s: ['abs', 'NN'] } } });
 		Dictionary.searchTrie(Dictionary.trie, 'abs').then(function (result) {
 			(0, _chai.expect)(result).to.eql(["NN"]);
 		});
 	});
 
-	it('should find words and pos of multiple search terms', function () {
+	it('should find pos of multiple search terms', function () {
 		var Dictionary = new _babelDictionaryTrie2.default({ "k": { "u": { "d": { "o": { "s": ["kudos", "NNS"] } }, "r": { "t": { "a": ["kurta", "NN"] } } }, "v": { "e": { "t": { "c": { "h": ["kvetch", "NN"] } } } } }, "K": { "u": { "r": { "d": ["Kurd", "NNP"] }, "w": { "a": { "i": { "t": { "i": ["Kuwaiti", "JJ"] } } } } } } });
 
 		Promise.all([Dictionary.searchTrie(Dictionary.trie, 'Kurd'), Dictionary.searchTrie(Dictionary.trie, 'kvetch'), Dictionary.searchTrie(Dictionary.trie, 'kurta')]).then(function (result) {
