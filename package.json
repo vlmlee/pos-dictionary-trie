@@ -1,10 +1,10 @@
 {
-  "name": "pos-dictionary-trie",
+  "name": "pos-dict-trie",
   "version": "1.0.0",
   "description": "Parts of speech of dictionary words organized into a trie for fast uplook.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha test/babel-test.js"
   },
   "author": "Michael Lee",
   "repository": {

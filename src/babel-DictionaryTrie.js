@@ -28,7 +28,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+* Class representing a Trie
+*
+* @class {DictionaryTrie} 
+*/
 var DictionaryTrie = function () {
+
+	/**
+ * Instantiates empty trie and promises list for return values
+ *
+ * @constructor
+ * @param {trie} trie - Initial trie object built from user input or from file
+ * @param {Array} promises - A list of promises set to null.
+ */
 	function DictionaryTrie(trie) {
 		_classCallCheck(this, DictionaryTrie);
 
@@ -36,11 +49,26 @@ var DictionaryTrie = function () {
 		this.promises = null;
 	}
 
+	/**
+ * Trie getter.
+ *
+ * @returns {trie} trie
+ */
+
+
 	_createClass(DictionaryTrie, [{
 		key: 'getTrie',
 		value: function getTrie() {
 			return this.trie;
 		}
+
+		/**
+  * Method that builds a trie from a text file line by line. It *must* be in single-line format.
+  *
+  * @param {file} file - Must be a single-line formatted file.
+  * @returns {Promise}
+  */
+
 	}, {
 		key: 'buildTrieFromFile',
 		value: function buildTrieFromFile(file) {
@@ -55,6 +83,8 @@ var DictionaryTrie = function () {
 
 			return new Promise(function (resolve, reject) {
 				rl.on('line', function (line) {
+					// This is the pos-js parser that will find the pos and
+					// pair the word for later insert into the trie.
 					var word = new _pos2.default.Lexer().lex(line),
 					    taggedWord = new _pos2.default.Tagger().tag(word);
 
@@ -63,6 +93,7 @@ var DictionaryTrie = function () {
 
 					atoms.map(function (char, index) {
 						if (atoms.length !== 1 && index === atoms.length - 1) {
+							// add dictionary definitions or what have you here
 							root[char] = taggedWord[0];
 						} else if (root[char]) {
 							root = root[char];
@@ -85,6 +116,14 @@ var DictionaryTrie = function () {
 				});
 			});
 		}
+
+		/**
+  * Method that writes constructed trie into a file in json string format.
+  *
+  * @param {file} file - The file to write into.
+  * @returns {Promise}
+  */
+
 	}, {
 		key: 'writeTrieToFile',
 		value: function writeTrieToFile(file) {
@@ -98,6 +137,15 @@ var DictionaryTrie = function () {
 				});
 			});
 		}
+
+		/**
+  * Method that searches the trie for a particular word and returns its part of speech.
+  *
+  * @param {trie} trie - Trie object to search for word. Defaults to this.trie.
+  * @param {string} word - Word to search for in the trie.
+  * @returns {Promise}
+  */
+
 	}, {
 		key: 'searchTrie',
 		value: function searchTrie(trie, word) {
@@ -112,6 +160,9 @@ var DictionaryTrie = function () {
 				} else {
 					self.promises.push(new Promise(function (resolve, reject) {
 						if (trie[word[0]]) {
+							// This retrieves the POS, but you may have to 
+							// change slightly depending on your input file
+							// to pair with the dictionary words.
 							resolve(trie[word[0]][1]);
 						} else {
 							reject("Word not found");

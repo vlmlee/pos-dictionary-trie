@@ -1,0 +1,1 @@
+exports.DictionaryTrie = require('./src/babel-DictionaryTrie.js').default;
