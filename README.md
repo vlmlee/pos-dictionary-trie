@@ -5,7 +5,7 @@
 This is a module that builds a dictionary trie from user input or from a file. It matches
 a word with a *part of speech*. For example, a dictionary trie is created in this format:
 
-{"k":{"u":{"d":{"o":{"s":["kudos","NNS"]}},"r":{"t":{"a":["kurta","NN"]}}},"v":{"e":{"t":{"c":{"h":["kvetch","NN"]}}}}},"K":{"u":{"r":{"d":["Kurd","NNP"]},"w":{"a":{"i":{"t":{"i":["Kuwaiti","JJ"]}}}}}}}
+`{"k":{"u":{"d":{"o":{"s":["kudos","NNS"]}},"r":{"t":{"a":["kurta","NN"]}}},"v":{"e":{"t":{"c":{"h":["kvetch","NN"]}}}}},"K":{"u":{"r":{"d":["Kurd","NNP"]},"w":{"a":{"i":{"t":{"i":["Kuwaiti","JJ"]}}}}}}}`
 
 You can build a trie from a list of 83,000 words in ~10 secs and the lookup is fast. You may 
 want to use the code in order to build your own trie with other associated data, i.e. 
