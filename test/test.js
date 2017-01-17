@@ -53,14 +53,14 @@ describe('Dictionary Trie', () => {
 		});
 	});
 
-	it('should return an empty array if word is not found', () => {
+	it('should return an empty array and throw error if word is not found', () => {
 		let Dictionary = new DictionaryTrie({});
 		Promise.resolve(
 			Dictionary.buildTrieFromFile(readFromFile)
 		).then(() => {
 			Dictionary.searchTrie(Dictionary.trie, 'kq').then(result => {
 				expect(result).to.eql([]);
-			});
+			}).catch(error => expect(error).to.equal('Word not found.'));
 		});
 	});
 });

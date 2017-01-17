@@ -60,11 +60,13 @@ describe('Dictionary Trie', function () {
 		});
 	});
 
-	it('should return an empty array if word is not found', function () {
+	it('should return an empty array and throw error if word is not found', function () {
 		var Dictionary = new _babelDictionaryTrie2.default({});
 		Promise.resolve(Dictionary.buildTrieFromFile(readFromFile)).then(function () {
 			Dictionary.searchTrie(Dictionary.trie, 'kq').then(function (result) {
 				(0, _chai.expect)(result).to.eql([]);
+			}).catch(function (error) {
+				return (0, _chai.expect)(error).to.equal('Word not found.');
 			});
 		});
 	});

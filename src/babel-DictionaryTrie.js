@@ -142,32 +142,32 @@ var DictionaryTrie = function () {
   * Method that searches the trie for a particular word and returns its part of speech.
   *
   * @param {trie} trie - Trie object to search for word. Defaults to this.trie.
-  * @param {string} word - Word to search for in the trie.
+  * @param {string} w - Word to search for in the trie.
   * @returns {Promise}
   */
 
 	}, {
 		key: 'searchTrie',
-		value: function searchTrie(trie, word) {
+		value: function searchTrie(trie, w) {
 			if (!trie) {
 				trie = this.trie;
 			}
-			var self = this;
+			var self = this,
+			    word = w;
 			self.promises = [];
-			if (trie.hasOwnProperty(word[0])) {
+			while (word) {
 				if (_typeof(trie[word[0]]) === 'object' && word.length > 1) {
-					self.searchTrie(trie[word[0]], word.slice(1));
-				} else {
+					trie = trie[word[0]];
+					word = word.slice(1);
+				} else if (word.length === 1) {
 					self.promises.push(new Promise(function (resolve, reject) {
 						if (trie[word[0]]) {
-							// This retrieves the POS, but you may have to 
-							// change slightly depending on your input file
-							// to pair with the dictionary words.
 							resolve(trie[word[0]][1]);
 						} else {
-							reject("Word not found");
+							reject('Word not found.');
 						}
 					}));
+					word = word.slice(1);
 				}
 			}
 			return Promise.all(self.promises);

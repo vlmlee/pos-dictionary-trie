@@ -105,29 +105,29 @@ export default class DictionaryTrie {
 	* Method that searches the trie for a particular word and returns its part of speech.
 	*
 	* @param {trie} trie - Trie object to search for word. Defaults to this.trie.
-	* @param {string} word - Word to search for in the trie.
+	* @param {string} w - Word to search for in the trie.
 	* @returns {Promise}
 	*/
-	searchTrie(trie, word) {
+	searchTrie(trie, w) {
 		if (!trie) {
 			trie = this.trie;
 		}
-		let self = this;
+		let self = this,
+			word = w;
 		self.promises = [];
-		if (trie.hasOwnProperty(word[0])) {
+		while (word) {
 			if (typeof trie[word[0]] === 'object' && word.length > 1) {
-				self.searchTrie(trie[word[0]], word.slice(1));
-			} else {
+				trie = trie[word[0]];
+				word = word.slice(1);
+			} else if (word.length === 1) {
 				self.promises.push(new Promise((resolve, reject) => {
 					if (trie[word[0]]) {
-						// This retrieves the POS, but you may have to 
-						// change slightly depending on your input file
-						// to pair with the dictionary words.
 						resolve(trie[word[0]][1]);
 					} else {
-						reject("Word not found");
+						reject('Word not found.');
 					}
 				}));
+				word = word.slice(1);
 			}
 		}
 		return Promise.all(self.promises);
