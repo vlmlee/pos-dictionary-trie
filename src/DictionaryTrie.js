@@ -133,6 +133,11 @@ export default class DictionaryTrie {
 		return Promise.all(self.promises);
 	}
 
+	/**
+	* Adds a word into the trie.
+	*
+	* @param {string} w - The word to add into the trie.
+	*/
 	addToTrie(w) {
 		let word = new pos.Lexer().lex(w),
 			taggedWord = new pos.Tagger().tag(word),
@@ -159,10 +164,16 @@ export default class DictionaryTrie {
 		});
 	}
 
+	/**
+	* Removes a word from the trie.
+	*
+	* @params {string} word - The word to remove.
+	*/
 	removeFromTrie(word) {
 		let atoms = word.split(""),
 			self = this,
-			root = self.trie;
+			root = self.trie,
+			i = 0;
 
 		return new Promise((resolve, reject) => {
 			try {
