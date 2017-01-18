@@ -172,6 +172,13 @@ var DictionaryTrie = function () {
 			}
 			return Promise.all(self.promises);
 		}
+
+		/**
+  * Adds a word into the trie.
+  *
+  * @param {string} w - The word to add into the trie.
+  */
+
 	}, {
 		key: 'addToTrie',
 		value: function addToTrie(w) {
@@ -199,12 +206,20 @@ var DictionaryTrie = function () {
 				}
 			});
 		}
+
+		/**
+  * Removes a word from the trie.
+  *
+  * @params {string} word - The word to remove.
+  */
+
 	}, {
 		key: 'removeFromTrie',
 		value: function removeFromTrie(word) {
 			var atoms = word.split(""),
 			    self = this,
-			    root = self.trie;
+			    root = self.trie,
+			    i = 0;
 
 			return new Promise(function (resolve, reject) {
 				try {
