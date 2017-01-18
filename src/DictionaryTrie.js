@@ -132,4 +132,53 @@ export default class DictionaryTrie {
 		}
 		return Promise.all(self.promises);
 	}
+
+	addToTrie(w) {
+		let word = new pos.Lexer().lex(w),
+			taggedWord = new pos.Tagger().tag(word),
+			atoms = word[0].split(""),
+			self = this,
+			root = self.trie;
+
+		return new Promise((resolve, reject) => {
+			try {
+				atoms.map((char, index) => {
+					if (atoms.length !== 1 && index === atoms.length - 1) {
+						root[char] = taggedWord[0];
+					} else if (root[char]) {
+						root = root[char];
+					} else {
+						root[char] = {};
+						root = root[char];
+					}
+				});
+				resolve(JSON.stringify(self.trie));
+			} catch (err) {
+				reject(err);
+			}
+		});
+	}
+
+	removeFromTrie(word) {
+		let atoms = word.split(""),
+			self = this,
+			root = self.trie;
+
+		return new Promise((resolve, reject) => {
+			try {
+				while (i < atoms.length) {
+					if (Object.keys(root[atoms[i]]).length === 1) {
+						delete root[atoms[i]];
+						break;
+					}
+
+					root = root[atoms[i]];
+					i++;
+				}
+				resolve(JSON.stringify(self.trie));
+			} catch (err) {
+				reject(err);
+			}
+		});
+	}
 }

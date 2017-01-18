@@ -172,6 +172,57 @@ var DictionaryTrie = function () {
 			}
 			return Promise.all(self.promises);
 		}
+	}, {
+		key: 'addToTrie',
+		value: function addToTrie(w) {
+			var word = new _pos2.default.Lexer().lex(w),
+			    taggedWord = new _pos2.default.Tagger().tag(word),
+			    atoms = word[0].split(""),
+			    self = this,
+			    root = self.trie;
+
+			return new Promise(function (resolve, reject) {
+				try {
+					atoms.map(function (char, index) {
+						if (atoms.length !== 1 && index === atoms.length - 1) {
+							root[char] = taggedWord[0];
+						} else if (root[char]) {
+							root = root[char];
+						} else {
+							root[char] = {};
+							root = root[char];
+						}
+					});
+					resolve(JSON.stringify(self.trie));
+				} catch (err) {
+					reject(err);
+				}
+			});
+		}
+	}, {
+		key: 'removeFromTrie',
+		value: function removeFromTrie(word) {
+			var atoms = word.split(""),
+			    self = this,
+			    root = self.trie;
+
+			return new Promise(function (resolve, reject) {
+				try {
+					while (i < atoms.length) {
+						if (Object.keys(root[atoms[i]]).length === 1) {
+							delete root[atoms[i]];
+							break;
+						}
+
+						root = root[atoms[i]];
+						i++;
+					}
+					resolve(JSON.stringify(self.trie));
+				} catch (err) {
+					reject(err);
+				}
+			});
+		}
 	}]);
 
 	return DictionaryTrie;
