@@ -1,5 +1,7 @@
 # Parts of Speech Dictionary Trie
 
+[![Build Status](https://travis-ci.org/vlmlee/pos-dictionary-trie.svg?branch=master)](https://travis-ci.org/vlmlee/pos-dictionary-trie)
+
 ## About
 
 This is a module that builds a dictionary trie from user input or a file. It matches
