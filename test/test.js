@@ -63,4 +63,27 @@ describe('Dictionary Trie', () => {
 			}).catch(error => expect(error).to.equal('Word not found.'));
 		});
 	});
+
+	it('should add a word to the trie', () => {
+		let Dictionary = new DictionaryTrie({});
+		Promise.resolve(
+			Dictionary.addToTrie('almost')
+		).then(result => {
+			expect(result).to.eql('{"a":{"l":{"m":{"o":{"s":{"t":["almost","RB"]}}}}}}');
+		});
+	});
+
+	it('should remove a word from the trie', () => {
+		let Dictionary = new DictionaryTrie({});
+
+		Dictionary.addToTrie('almost');
+		Dictionary.addToTrie('also');
+		Dictionary.addToTrie('any');
+
+		expect(JSON.stringify(Dictionary.getTrie())).to.eql('{"a":{"l":{"m":{"o":{"s":{"t":["almost","RB"]}}},"s":{"o":["also","RB"]}},"n":{"y":["any","DT"]}}}');
+
+		Dictionary.removeFromTrie('almost');
+
+		expect(JSON.stringify(Dictionary.getTrie())).to.eql('{"a":{"l":{"s":{"o":["also","RB"]}},"n":{"y":["any","DT"]}}}');
+	});
 });

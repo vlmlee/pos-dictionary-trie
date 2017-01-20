@@ -70,4 +70,25 @@ describe('Dictionary Trie', function () {
 			});
 		});
 	});
+
+	it('should add a word to the trie', function () {
+		var Dictionary = new _babelDictionaryTrie2.default({});
+		Promise.resolve(Dictionary.addToTrie('almost')).then(function (result) {
+			(0, _chai.expect)(result).to.eql('{"a":{"l":{"m":{"o":{"s":{"t":["almost","RB"]}}}}}}');
+		});
+	});
+
+	it('should remove a word from the trie', function () {
+		var Dictionary = new _babelDictionaryTrie2.default({});
+
+		Dictionary.addToTrie('almost');
+		Dictionary.addToTrie('also');
+		Dictionary.addToTrie('any');
+
+		(0, _chai.expect)(JSON.stringify(Dictionary.getTrie())).to.eql('{"a":{"l":{"m":{"o":{"s":{"t":["almost","RB"]}}},"s":{"o":["also","RB"]}},"n":{"y":["any","DT"]}}}');
+
+		Dictionary.removeFromTrie('almost');
+
+		(0, _chai.expect)(JSON.stringify(Dictionary.getTrie())).to.eql('{"a":{"l":{"s":{"o":["also","RB"]}},"n":{"y":["any","DT"]}}}');
+	});
 });
