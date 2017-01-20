@@ -67,4 +67,12 @@ Promise.all([
 ]).then(result => {
 	console.log(result) // => returns all three in an array ['VB', 'NN', 'RB']
 });
+
+// The two methods below are intended for small sized tries.
+
+// Add word to the trie
+anotherTrie.addToTrie('aWordToAdd'); // => returns the trie with the word added
+
+// Removes word from the trie
+anotherTrie.removeFromTrie('aWordToRemove') // => returns the trie with the word removed
 ```
